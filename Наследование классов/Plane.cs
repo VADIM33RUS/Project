@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Наследование_классов
+namespace class_inheritance
+    
 {
-    class Plane
+    class Plane/*Базовый класс "Самолет"*/
     {
         private double speed;
         private double wingspan;
@@ -86,7 +87,7 @@ namespace Наследование_классов
         }
         public override string information()
         {
-            return $"Название самолета: {Name}" + base.information();
+            return $"Название самолета: {Name} " + base.information();
         }
     }
     class Plane_carrier : Warplane
