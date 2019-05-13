@@ -71,6 +71,7 @@ namespace Наследование_классов
         public Plane_fighter(string _name,int n_weapons, bool radio, double _speed, double WingS) : base(n_weapons,radio,_speed,WingS)
         {
             name = _name;
+
         }
         public string Name
         {
