@@ -10,13 +10,12 @@ namespace Наследование_классов
     {
         private double speed;
         private double wingspan;
-    
         public Plane()
         {
             speed = 0;
             wingspan = 0;
+            
         }
-
         public Plane(double _speed, double WingS)
         {
             speed = _speed;
@@ -44,39 +43,31 @@ namespace Наследование_классов
                 wingspan = value;
             }
         }
-
-        public virtual void information()
+        public virtual string information()
         {
-            Console.WriteLine($"Скорость: {Speed} км/ч ");
-            Console.WriteLine($"Размах крыла: {Wingspan} (метр.) ");
+            return $"Скорость: {Speed} км/ч  ,Размах крыла: {Wingspan} (метр.) ";
+            
         }
     }
-
     internal class Warplane : Plane
     {
         private int N_weapons;
         private bool RLS;
-
         public int N_weapons1 { get => N_weapons; set => N_weapons = value; }
         public bool RLS1 { get => RLS; set => RLS = value; }
-
         public Warplane(int n_weapons, bool radio,double _speed, double WingS) : base(_speed, WingS)
         {
             N_weapons = n_weapons;
             RLS = radio;
         }
-        public override void information()
-        {
-            base.information();
-            Console.WriteLine($"Кол-во подвесного вооружения: {N_weapons1} ,Радиолокационная станция: {RLS1}");
+        public override string information()
+        { 
+            return base.information() + $"\n Кол-во подвесного вооружения: {N_weapons1} ,Радиолокационная станция: {RLS1}";
         }
     }
-
     class Plane_fighter : Warplane
     {
         private string name;
-
-       
         public Plane_fighter(string _name,int n_weapons, bool radio, double _speed, double WingS) : base(n_weapons,radio,_speed,WingS)
         {
             name = _name;
@@ -92,11 +83,9 @@ namespace Наследование_классов
 
             }
         }
-        public override void information()
+        public override string information()
         {
-            Console.WriteLine($"Название самолета: {Name}");
-            base.information();
-
+            return $"Название самолета: {Name}" + base.information();
         }
     }
     class Plane_carrier : Warplane
@@ -117,14 +106,9 @@ namespace Наследование_классов
 
             }
         }
-        public override void information()
+        public override string information()
         {
-            Console.WriteLine($"Название самолета: {Name}");
-            base.information();
-
+            return $"Название самолета: {Name}" + base.information();
         }
     }
-        
-
-
 }
