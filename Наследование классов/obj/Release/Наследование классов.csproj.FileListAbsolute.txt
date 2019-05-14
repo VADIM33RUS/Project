@@ -1,0 +1,7 @@
+C:\Users\User\Desktop\Project\Наследование классов\bin\Release\Наследование классов.exe.config
+C:\Users\User\Desktop\Project\Наследование классов\bin\Release\Наследование классов.exe
+C:\Users\User\Desktop\Project\Наследование классов\bin\Release\Наследование классов.pdb
+C:\Users\User\Desktop\Project\Наследование классов\obj\Release\Наследование классов.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Project\Наследование классов\obj\Release\Наследование классов.exe
+C:\Users\User\Desktop\Project\Наследование классов\obj\Release\Наследование классов.pdb
+C:\Users\User\Desktop\Project\Наследование классов\obj\Release\Наследование классов.csprojAssemblyReference.cache
