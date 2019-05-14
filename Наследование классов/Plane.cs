@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 namespace class_inheritance
     
 {
-    class Plane/*Базовый класс "Самолет"*/
+    /// <summary>
+    /// Класс описывающий самолёт
+    /// </summary>
+    class Plane
     {
         private double speed;
         private double wingspan;
@@ -17,6 +20,11 @@ namespace class_inheritance
             wingspan = 0;
             
         }
+        /// <summary>
+        /// Конструктор класса Plane
+        /// </summary>
+        /// <param name="_speed">Максимальная скорость самолёта</param>
+        /// <param name="WingS">Размах крыла самолета</param>
         public Plane(double _speed, double WingS)
         {
             speed = _speed;
