@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
 
 namespace class_inheritance
 {
     
     class Program
     {
-        
         static void Main()
         {
-            var db = new DB();
-            db.Connection();
+
             var planes = new List<Plane>
             {
                 new Plane_fighter("СУ-57", 9, true, 3000, 14),
@@ -27,25 +24,6 @@ namespace class_inheritance
                 Console.WriteLine(p.information() + "\n");
             }
             Console.ReadKey();
-            Console.Clear();
-
-            try
-            {
-                List<Plane> Spisok = new List<Plane>();
-                DB Db = new DB();
-                db.GetValue(Spisok);
-
-                foreach (Plane p in Spisok)
-                {
-                    Console.WriteLine(p.information());
-                }
-                Console.ReadKey();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
         }
     }
 }
