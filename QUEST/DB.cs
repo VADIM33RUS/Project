@@ -27,14 +27,25 @@ namespace class_inheritance
         }
         public void Connection()
         {
-            connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\Desktop\Project\QUEST\Database1.mdf;Integrated Security=True");
-            connect.Open();
+            try
+            {
+                connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\Desktop\Project\QUEST\Database1.mdf;Integrated Security=True");
+                connect.Open();
+            }
+            catch(SqlException sex)
+            {
+                Console.WriteLine(sex.ToString());
+            }
         }
         public void CloseConnection()
         {
             connect.Close();
-            connect.Dispose();
+            connect.Dispose();//Этой командой мы говорим, что больше объект использоваться нами не будет
         }
+        /// <summary>
+        /// Метод создан для получения списка и добавления в него по Type нового объекта
+        /// </summary>
+        /// <param name="Spisok">Список самолётов</param>
         public void GetValue(List<Plane> Spisok)
         {
             SqlCommand command = new SqlCommand(@"SELECT ID,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Table]", connect);
@@ -58,26 +69,30 @@ namespace class_inheritance
                         }
                 }
             }
-            command.Dispose();
+            command.Dispose();//Этой командой мы говорим, что больше объект использоваться нами не будет
         }
+        /// <summary>
+        /// Метод создан для вывода информации из БД
+        /// </summary>
         public void Output()
         {
             
-            SqlCommand command = new SqlCommand(@"SELECT ID,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Table]", connect);
+            SqlCommand command = new SqlCommand(@"SELECT Id,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Table]", connect);
             using (var reader = command.ExecuteReader())
             {
+                
                 if (reader.HasRows)
                 {
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\n\n", reader.GetName(0), reader.GetName(1), reader.GetName(2), reader.GetName(3), reader.GetName(4), reader.GetName(5), reader.GetName(6));
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\n\n", "Id", "Name", "Type", "Wingspan", "Weapons", "Speed", "RLS");
                     while (reader.Read())
                     {
-                        var Id = reader.GetValue(0);
-                        var Name = reader.GetValue(1);
-                        var Type = reader.GetValue(2);
-                        var Wingspan = reader.GetValue(3);
-                        var Weapons = reader.GetValue(4);
-                        var Speed = reader.GetValue(5);
-                        var RLS = reader.GetValue(6);
+                        var Id = reader["Id"];
+                        var Name = reader["Name"];
+                        var Type = reader["Type"];
+                        var Wingspan = reader["Wingspan"];
+                        var Weapons = reader["Weapons"];
+                        var Speed = reader["Speed"];
+                        var RLS = reader["RLS"];
                         Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", Id, Name, Type, Wingspan, Weapons, Speed, RLS);
                     }
                 }
