@@ -68,7 +68,12 @@ namespace class_inheritance
                 name = value;
             }
         }
-
+        public void Serialize(SqlDataReader reader)
+        {
+            Name = reader["Name"].ToString();
+            Speed = Convert.ToDouble(reader["Speed"]);
+            Wingspan = Convert.ToDouble(reader["Wingspan"]);
+        }
         public virtual string information()
         {
             return $"Название: {Name}, Скорость: {Speed} км/ч  ,Размах крыла: {Wingspan} (метр.) ";
@@ -78,12 +83,6 @@ namespace class_inheritance
     
     internal class Warplane : Plane
     {
-        public void Serialize(SqlDataReader reader)
-        {
-            Name = reader["Name"].ToString();
-            Speed = Convert.ToInt32(reader["Speed"]);
-            Wingspan = Convert.ToInt32(reader["Wingspan"]);
-        }
         private int N_weapons;
         private bool RLS;
         public int N_weapons1 { get => N_weapons; set => N_weapons = value; }
@@ -94,10 +93,12 @@ namespace class_inheritance
             N_weapons = n_weapons;
             RLS = radio;
         }
+      
         public override string information()
         { 
             return base.information() + $"\n Кол-во подвесного вооружения: {N_weapons1} ,Радиолокационная станция: {RLS1}";
         }
+      
     }
     
     class Plane_fighter : Warplane

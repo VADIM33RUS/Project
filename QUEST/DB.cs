@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define DEBUG
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,19 +24,11 @@ namespace class_inheritance
             {
                 Console.WriteLine("Подключение уже установлено");
             }
-
         }
         public void Connection()
         {
-            try
-            {
-                connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\Desktop\Project\QUEST\Database1.mdf;Integrated Security=True");
-                connect.Open();
-            }
-            catch(SqlException sex)
-            {
-                Console.WriteLine(sex.ToString());
-            }
+            connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\Desktop\Project\QUEST\Database1.mdf;Integrated Security=True");
+            connect.Open();
         }
         public void CloseConnection()
         {
@@ -46,41 +39,45 @@ namespace class_inheritance
         /// Метод создан для получения списка и добавления в него по Type нового объекта
         /// </summary>
         /// <param name="Spisok">Список самолётов</param>
-        public void GetValue(List<Plane> Spisok)
+        public List<Plane> GetValue()
         {
-            SqlCommand command = new SqlCommand(@"SELECT ID,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Table]", connect);
-            using (var reader = command.ExecuteReader())
+            List<Plane> Spisok = new List<Plane>();
+            using (SqlCommand command = new SqlCommand(@"SELECT Id,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Table]", connect))
             {
-                while (reader.Read())
+                using (var reader = command.ExecuteReader())
                 {
-                    if (reader.HasRows)
-                        switch (reader.GetValue(2))
-                        {
-                            case "Plane_fighter":
-                                {
-                                    Spisok.Add(new Plane_fighter(reader));
-                                    break;
-                                }
-                            case "Plane_carrier":
-                                {
-                                    Spisok.Add(new Plane_carrier(reader));
-                                    break;
-                                }
-                        }
+                    while (reader.Read())
+                    {
+                        if (reader.HasRows)
+                            switch (reader.GetValue(2))
+                            {
+                                case "Plane_fighter":
+                                    {
+                                        Spisok.Add(new Plane_fighter(reader));
+                                        break;
+                                    }
+                                case "Plane_carrier":
+                                    {
+                                        Spisok.Add(new Plane_carrier(reader));
+                                        break;
+                                    }
+                            }
+                    }
                 }
             }
-            command.Dispose();//Этой командой мы говорим, что больше объект использоваться нами не будет
+            return Spisok;
         }
         /// <summary>
         /// Метод создан для вывода информации из БД
         /// </summary>
+#if DEBUG
         public void Output()
         {
-            
+
             SqlCommand command = new SqlCommand(@"SELECT Id,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Table]", connect);
             using (var reader = command.ExecuteReader())
             {
-                
+
                 if (reader.HasRows)
                 {
                     Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\n\n", "Id", "Name", "Type", "Wingspan", "Weapons", "Speed", "RLS");
@@ -99,5 +96,6 @@ namespace class_inheritance
             }
             command.Dispose();
         }
+#endif
     }
 }
