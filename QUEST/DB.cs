@@ -39,33 +39,35 @@ namespace class_inheritance
         /// Метод создан для получения списка и добавления в него по Type нового объекта
         /// </summary>
         /// <param name="Spisok">Список самолётов</param>
-        public List<Plane> GetValue()
+        public List<Plane> GetPlanes()
         {
-            List<Plane> Spisok = new List<Plane>();
-            using (SqlCommand command = new SqlCommand(@"SELECT Id,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Table]", connect))
+            var plane = new List<Plane>();
+            using (SqlCommand command = new SqlCommand(@"SELECT Id,Name,Type,Weapons,Wingspan,Speed,RLS FROM [Planes_selector]", connect))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        if (reader.HasRows)
-                            switch (reader.GetValue(2))
+                            switch (reader["Type"])
                             {
                                 case "Plane_fighter":
                                     {
-                                        Spisok.Add(new Plane_fighter(reader));
+                                        plane.Add(new Plane_fighter());
                                         break;
                                     }
                                 case "Plane_carrier":
                                     {
-                                        Spisok.Add(new Plane_carrier(reader));
+                                        plane.Add(new Plane_carrier());
                                         break;
                                     }
                             }
+                        
+                        plane.Last().Serialize(reader);
+                        
                     }
                 }
             }
-            return Spisok;
+            return plane;
         }
         /// <summary>
         /// Метод создан для вывода информации из БД

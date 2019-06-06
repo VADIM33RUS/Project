@@ -17,7 +17,7 @@ namespace class_inheritance
             {
                 var db = new DB();
                 db.Connection();
-                foreach (Plane p in db.GetValue())
+                foreach (Plane p in db.GetPlanes())
                 {
                     Console.WriteLine(p.information());
                 }
@@ -26,13 +26,15 @@ namespace class_inheritance
             }
             catch(SqlException sex)
             {
+                Console.WriteLine("Произошла ошибка, перезапустите БД или измените путь к файлу\n\n");
                 Console.WriteLine(sex.ToString());
+                Console.ReadKey();
             }
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.ToString());
-            //    Console.ReadKey();
-            //}
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Console.ReadKey();
+            }
         }
     }
 }

@@ -20,7 +20,9 @@ namespace class_inheritance
         
         public Plane()
         {
-            
+            name = null;
+            speed = 0;
+            wingspan = 0;
         }
         /// <summary>
         /// Конструктор класса Plane
@@ -34,7 +36,6 @@ namespace class_inheritance
             wingspan = WingS;
             name = _name;
         }
-        
         public double Speed
         {
             get
@@ -68,7 +69,7 @@ namespace class_inheritance
                 name = value;
             }
         }
-        public void Serialize(SqlDataReader reader)
+        public virtual void Serialize(SqlDataReader reader)
         {
             Name = reader["Name"].ToString();
             Speed = Convert.ToDouble(reader["Speed"]);
@@ -80,42 +81,52 @@ namespace class_inheritance
             
         }
     }
-    
     internal class Warplane : Plane
     {
         private int N_weapons;
         private bool RLS;
         public int N_weapons1 { get => N_weapons; set => N_weapons = value; }
         public bool RLS1 { get => RLS; set => RLS = value; }
-        public Warplane() : base() { }
+        public Warplane() : base()
+        {
+            N_weapons = 1;
+            RLS = false;
+        }
         public Warplane(int n_weapons, bool radio, string _name, double _speed, double WingS) : base(_name,_speed, WingS)
         {
             N_weapons = n_weapons;
             RLS = radio;
         }
-      
+        public override void Serialize(SqlDataReader reader)
+        {
+            base.Serialize(reader);
+            N_weapons = Convert.ToInt32(reader["Weapons"]);
+            RLS = Convert.ToBoolean(reader["RLS"]);
+        }
         public override string information()
         { 
             return base.information() + $"\n Кол-во подвесного вооружения: {N_weapons1} ,Радиолокационная станция: {RLS1}";
         }
       
     }
-    
     class Plane_fighter : Warplane
     {
         private string type;
+        public Plane_fighter():base()
+        {  
+            type = "Plane_fighter";
+        }
+        public Plane_fighter(int n_weapons, bool radio, string _name, double _speed, double WingS) : base(n_weapons,radio, _name, _speed,WingS)
+        { 
+        }
         public Plane_fighter(SqlDataReader reader) : base()
         {
             Serialize(reader);
         }
-        public Plane_fighter(int n_weapons, bool radio, string _name, double _speed, double WingS, string Type = "Fighter") : base(n_weapons,radio, _name, _speed,WingS)
+        public override void Serialize(SqlDataReader reader)
         {
-            n_weapons = 1;
-            radio = false;
-            _name = null;
-            _speed = 100;
-            WingS = 1;
-            type = Type;
+            base.Serialize(reader);
+            type = reader["Type"].ToString();
         }
         public override string information()
         {
@@ -126,19 +137,22 @@ namespace class_inheritance
     class Plane_carrier : Warplane
     {
         private string type;
-        
+        public Plane_carrier():base()
+        {
+            type = "Plane_carrier";
+            
+        }
+        public Plane_carrier(int n_weapons, bool radio, string _name, double _speed, double WingS) : base(n_weapons, radio, _name, _speed, WingS)
+        {
+        }
         public Plane_carrier(SqlDataReader reader) : base()
         {
             Serialize(reader);
         }
-        public Plane_carrier(int n_weapons, bool radio, string _name, double _speed, double WingS, string Type = "Carrier") : base(n_weapons, radio, _name, _speed, WingS)
+        public override void Serialize(SqlDataReader reader)
         {
-            n_weapons = 0;
-            radio = false;
-            type = Type;
-            _name = null;
-            _speed = 100;
-            WingS = 1;
+            base.Serialize(reader);
+            type = reader["Type"].ToString();
         }
         public override string information()
         {
