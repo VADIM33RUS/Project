@@ -26,13 +26,12 @@ namespace class_inheritance
             }
             catch(SqlException sex)
             {
-                Console.WriteLine("Произошла ошибка, перезапустите БД или измените путь к файлу\n\n");
-                Console.WriteLine(sex.ToString());
+                Console.WriteLine("Произошла ошибка, перезапустите БД или измените путь к файлу\n\n" + sex.ToString());
                 Console.ReadKey();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine("Programm: Damn it. Sorry, my Creator is too dumb to handle this exception.\n\n" + ex.ToString());
                 Console.ReadKey();
             }
         }

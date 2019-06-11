@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.IO;
 using System.Xml.Serialization;
+using System.Reflection;
 
 namespace class_inheritance
 {
@@ -46,24 +47,24 @@ namespace class_inheritance
             {
                 using (var reader = command.ExecuteReader())
                 {
+                    Plane p = null;
                     while (reader.Read())
                     {
-                            switch (reader["Type"])
-                            {
-                                case "Plane_fighter":
-                                    {
-                                        plane.Add(new Plane_fighter());
-                                        break;
-                                    }
-                                case "Plane_carrier":
-                                    {
-                                        plane.Add(new Plane_carrier());
-                                        break;
-                                    }
-                            }
-                        
-                        plane.Last().Serialize(reader);
-                        
+                        switch (reader["Type"])
+                        {
+                            case "Plane_fighter":
+                                {
+                                    p = new Plane_fighter();
+                                    break;
+                                }
+                            case "Plane_carrier":
+                                {
+                                    p = new Plane_carrier();
+                                    break;
+                                }
+                        }
+                        p.Serialize(reader);
+                        plane.Add(p);
                     }
                 }
             }
